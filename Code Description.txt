@@ -1,0 +1,76 @@
+T-MLP with Real-Time Inference for BNPL
+This script implements a Tabular MLP (T-MLP) architecture for binary classification in a Buy Now Pay Later (BNPL) context. It includes full pipeline: preprocessing, training, model export, and real-time prediction.
+
+🔷 SECTION 1: Data Preprocessing
+Reads raw CSV from Google Drive.
+
+Fills missing values, encodes categorical features.
+
+Derives new features:
+
+Aggregated purchase metrics
+
+Age condition and repeat usage
+
+Credit assignment rules via determine_credit()
+
+Generates final binary target label: Target.
+
+🔷 SECTION 2: Feature Engineering
+Standardizes features with StandardScaler.
+
+Trains a LightGBM model to select top-5 features.
+
+Splits into training/test sets with stratification.
+
+🔷 SECTION 3: T-MLP Model
+TMLP Architecture:
+3 Fully connected layers:
+
+ReLU + BatchNorm + Dropout
+
+Final layer with 2 logits
+
+🔷 SECTION 4: Training Loop
+Optimizer: Adam
+
+Loss: CrossEntropy
+
+Trains for 5 epochs on top selected features
+
+Logs accuracy and loss per epoch
+
+🔷 SECTION 5: Saving Model Components
+Saves to disk:
+
+.pth for model weights
+
+.pkl for StandardScaler
+
+.pkl for selected features & all features
+
+🔷 SECTION 6: Real-Time Prediction
+smart_predict_real_time(new_data_df)
+Loads scaler and selected features
+
+Pads missing columns in new data
+
+Predicts approval probabilities batch-wise using trained T-MLP
+
+Returns a NumPy array of probabilities
+
+🔷 SECTION 7: Evaluation
+evaluate_predictions():
+
+Computes best KS threshold if not provided
+
+Outputs accuracy, recall, precision, F1, AUC, KS
+
+Visualizes confusion matrix
+
+🔷 SECTION 8: Sample Usage
+Real-time prediction on:
+
+A single record
+
+Batch uploaded data from realtime_data.csv
