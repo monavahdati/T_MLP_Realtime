@@ -94,3 +94,85 @@ Includes a utility function:
 def smart_predict_real_time(new_data_df, batch_size=256):
     ...
     return np.array(probabilities)
+🟢 Automatically:
+
+Pads missing columns
+
+Applies stored scaler
+
+Selects LGBM top-K features
+
+Returns credit approval probability
+
+📁 Project Structure
+bash
+Copy
+Edit
+BNPL-TMLP/
+│
+├── model.py                  # TMLP model definition
+├── train_pipeline.py         # Full pipeline: preprocessing + training + saving
+├── predict.py                # Smart inference script
+├── requirements.txt
+├── README.md
+└── saved/
+    ├── tmlp_model.pth
+    ├── scaler.pkl
+    ├── selected_features.pkl
+    └── scaler_features.pkl
+💾 Output Artifacts
+After training, the following files will be saved:
+
+File	Description
+tmlp_model.pth	Trained PyTorch model
+scaler.pkl	StandardScaler used for feature normalization
+selected_features.pkl	Top K features chosen by LightGBM
+scaler_features.pkl	Full feature list used in scaling
+
+🧪 Example Inference
+python
+Copy
+Edit
+# Predict one user
+df = pd.DataFrame({
+    'Age': [28],
+    'Credit Score': [590],
+    'Total_Purchase_Frequency': [35],
+    'Total_Purchase_Amount': [100000000],
+    'Age Condition': [1],
+    'Rating': [3.5],
+    'Repeat Usage': [1]
+})
+
+pred_prob = smart_predict_real_time(df)
+print(f"Approval Probability: {pred_prob[0]:.4f}")
+📦 Requirements
+bash
+Copy
+Edit
+torch
+pandas
+numpy
+lightgbm
+scikit-learn
+matplotlib
+seaborn
+joblib
+Install via:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+📌 Future Improvements
+Add SHAP explanations per prediction
+
+Convert to REST API using FastAPI or Flask
+
+Integrate credit risk thresholds into a dashboard
+
+🪪 License
+MIT License
+
+🤝 Acknowledgments
+This project is part of a broader effort to improve credit decision-making in digital financial systems using deep learning and explainability.
